@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_PASSWORD: secretpass
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      OUTPUT: db
+      DB_HOST: db
+      DB_PASSWORD: secretpass
+    depends_on:
+      - db
+    expose:
+      - "50051"
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      GRPC_SERVER: server:50051
+    depends_on:
+      - server
+
+volumes:
+  db-data:

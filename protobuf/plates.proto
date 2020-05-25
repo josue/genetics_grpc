@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package plates;
+
+// The plate data service definition.
+service Plates {
+  rpc SendPlates (stream PlateRequest) returns (PlateResponse) {}
+}
+
+// The request message containing plates payload
+message PlateRequest {
+  int32 plate = 1;
+  string well = 2;
+  int32 runtime = 3;
+  float optical_density = 4;
+  string run = 5;
+  float corrected_optical_density = 6;
+}
+
+// The response message from server
+message PlateResponse {
+  string message = 1;
+}
