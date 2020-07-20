@@ -1,6 +1,6 @@
 ### gRPC Challenge
 
-1.  Genetic Networks routinely transfers data from laboratory experiments to our cloud-based data warehouse.
+1.  Company routinely transfers data from laboratory experiments to our cloud-based data warehouse.
 
     a. Commonly, our experiments are conducted in 96-well plates that are handled by robots. These plates are depicted below, with A-H on the rows and 1-12 on the columns. Wells are named A1-H12 based on the intersection of rows and columns (see image below).
 
