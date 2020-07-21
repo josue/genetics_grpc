@@ -1,35 +1,6 @@
-### gRPC Challenge
+### gRPC stream with client & server
 
-1.  Company routinely transfers data from laboratory experiments to our cloud-based data warehouse.
-
-    a. Commonly, our experiments are conducted in 96-well plates that are handled by robots. These plates are depicted below, with A-H on the rows and 1-12 on the columns. Wells are named A1-H12 based on the intersection of rows and columns (see image below).
-
-    b. Each robot handles multiple plates simultaneously in a run (i.e., batch), and data is transferred to the data warehouse on a per-run basis.
-
-    c. For each well, optical density (a proxy for cell growth) is collected as a time-series during the run (typically 1000-2000 measurements per well over a few days). Optical density typically ranges from 0.1 to 2.0. At the end of the run, the robot generates a comma separated file with the following columns:
-
-        i. Time (in whole seconds) since the start of the run.
-        ii. Well name
-        iii. Optical density
-        iv. Corrected optical density
-
-    Using protobuf and gRPC (or REST API, not preferred):
-
-    a) Create a command-line based client that the robot can execute to send the parsed data.
-
-    b) Create a server that prints out the data in a structured way.
-
-    c) Bonus: Instead of printing the data as in b), connect to a SQL database (preferably postgresql) and deposit the data in an appropriately structured schema (note: database knowledge is not a requirement for this position, but is a plus)
-
-2.  Create a Docker container for the service you’ve developed above.
-
-    a. Include the Dockerfile
-
-    b. Describe the steps you would take to deploy an updated image when triggered by a git push to a master branch.
-
----
-
-### Solution:
+Demonstrates a gRPC client parsing a large CSV formatted dataset file and quickly streams all records to a gRPC server with confirmation received, and inserts all records into a Postgres database.
 
 Requires: **Docker** + **Golang**
 
@@ -84,11 +55,3 @@ If you want to run individually, then you must run the targets in this order:
 2. `make run_server_with_db`
 3. `make run_client`
 
-#### Deploy Image Update Procedure
-
-> Describe the steps you would take to deploy an updated image when triggered by a git push to a master branch.
-
-1. Setup a Cloudformation stack with a CodeBuild build specs file + CodePipeline.
-2. Upon a git push to master branch on Github, CodeBuild will capture the Github webhook updates.
-3. CodeBuild creates the container image from the buildspec instructions and the final image is pushed to Dockerhub.
-4. Then CodePipeline is configured to deploy the image to an existing ECS/Fargate deployment using a TaskDefinition file.
