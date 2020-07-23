@@ -12,7 +12,7 @@ import (
 	pb "./proto"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" // std postgres driver
 )
 
 // Postgres DB defaults

@@ -16,8 +16,8 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
-// list of plates
-type plateList []pb.PlateRequest
+// PlateList - a list of plates
+type PlateList []pb.PlateRequest
 
 // StartServerConn accepts the address, server conneciton timeout params and establish a connection to gRPC server
 func StartServerConn(address string, serverConnTimeoutSecs int) (*grpc.ClientConn, error) {
@@ -34,7 +34,7 @@ func StartServerConn(address string, serverConnTimeoutSecs int) (*grpc.ClientCon
 
 // SendPlates accepts the gRPC server connection, list of plates and deadline seconds.
 // Plate data is sent as a stream to the gRPC server then receives a confirmation response.
-func SendPlates(conn *grpc.ClientConn, plates plateList, deadlineSecs int) error {
+func SendPlates(conn *grpc.ClientConn, plates PlateList, deadlineSecs int) error {
 	total := len(plates)
 	log.Printf("Client sending %v Plates\n", total)
 
@@ -65,8 +65,8 @@ func SendPlates(conn *grpc.ClientConn, plates plateList, deadlineSecs int) error
 
 // ReadDataFile accepts a filename path then reads each line (comma delimited) and extracts each column and
 // populates a request message per line then returns a list of plate data.
-func ReadDataFile(filename string) (plateList, error) {
-	var pList plateList
+func ReadDataFile(filename string) (PlateList, error) {
+	var pList PlateList
 
 	// Open the file
 	log.Printf("Reading file: %v\n", filename)
