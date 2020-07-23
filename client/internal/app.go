@@ -74,7 +74,6 @@ func ReadDataFile(filename string) (PlateList, error) {
 	if err != nil {
 		return pList, err
 	}
-	defer file.Close()
 
 	// Setup file reader
 	r := csv.NewReader(file)
@@ -119,5 +118,5 @@ func ReadDataFile(filename string) (PlateList, error) {
 		pList = append(pList, pr)
 	}
 
-	return pList, nil
+	return pList, file.Close()
 }

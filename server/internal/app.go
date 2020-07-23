@@ -115,7 +115,10 @@ func (s *Server) SendPlates(stream pb.Plates_SendPlatesServer) error {
 
 		if err == io.EOF {
 			message = fmt.Sprintf(pretext, records)
-			stream.SendAndClose(&pb.PlateResponse{Message: message})
+			err = stream.SendAndClose(&pb.PlateResponse{Message: message})
+			if err != nil {
+				return err
+			}
 			break
 		}
 		if err != nil {
@@ -201,7 +204,10 @@ func (s *Server) dbConfig() error {
 	// check query response
 	for rows.Next() {
 		m := map[string]interface{}{}
-		rows.MapScan(m)
+		err := rows.MapScan(m)
+		if err != nil {
+			return err
+		}
 		if val, ok := m["exists"]; ok && val == true {
 			tableExist = true
 		}

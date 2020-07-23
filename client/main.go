@@ -37,7 +37,6 @@ func main() {
 		log.Printf("Server connection error: %v", err)
 		log.Fatalf("Duration: %v", time.Since(start))
 	}
-	defer conn.Close()
 
 	// read plates data from designated data file
 	plates, err := app.ReadDataFile(dataFile)
@@ -54,4 +53,9 @@ func main() {
 	}
 
 	log.Printf("Duration: %v", time.Since(start))
+
+	if err = conn.Close(); err != nil {
+		log.Printf("Server close connection error: %v", err)
+		log.Fatalf("Duration: %v", time.Since(start))
+	}
 }
